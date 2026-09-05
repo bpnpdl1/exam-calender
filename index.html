@@ -10,234 +10,354 @@
 
   <style>
     [x-cloak] { display: none !important; }
-    .calendar-cell { min-height: 150px; }
-    @media (max-width: 768px) {
-      .calendar-cell { min-height: 120px; }
+
+    .calendar-cell {
+      min-height: 150px;
+    }
+
+    @media (max-width: 767px) {
+      .calendar-cell {
+        min-height: 84px;
+      }
     }
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-900">
-<div
-  x-data="examCalendar()"
-  class="min-h-screen"
->
-  <main class="mx-auto max-w-[1500px] px-4 py-6 md:px-8 lg:py-10">
+<div x-data="examCalendar()" class="min-h-screen">
+
+  <main class="mx-auto max-w-[1500px] px-3 py-4 sm:px-4 md:px-8 md:py-8 lg:py-10">
 
     <!-- Header -->
-    <section class="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <div class="p-6 md:p-8">
+    <section class="mb-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:mb-6 md:rounded-3xl">
+      <div class="p-4 sm:p-5 md:p-8">
         <div class="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-          <div>
-            <div class="mb-3 flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
-                MCA I Semester • Batch 2025
+          <div class="min-w-0">
+            <div class="mb-3 flex flex-wrap gap-2">
+              <span class="rounded-full bg-slate-900 px-2.5 py-1 text-[10px] font-semibold text-white sm:text-xs">
+                MCA I Semester
               </span>
-              <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+              <span class="rounded-full bg-indigo-50 px-2.5 py-1 text-[10px] font-semibold text-indigo-700 sm:text-xs">
                 September 2026
               </span>
-              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 sm:text-xs">
                 Bhadra / Ashwin 2083
               </span>
             </div>
 
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">
+            <h1 class="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
               Exam & Office Leave Planner
             </h1>
+
             <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-500 md:text-base">
-              A clean one-month calendar focused only on office work, weekends,
-              exam dates and recommended preparation leave.
+              September 2026 calendar focused only on office work, weekends,
+              exam dates and preparation leave.
             </p>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <div class="text-xs font-medium text-slate-500">Exams</div>
-              <div class="mt-1 text-2xl font-bold">5</div>
+          <!-- Stats -->
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 md:rounded-2xl md:px-4">
+              <div class="text-[10px] font-medium text-slate-500 sm:text-xs">Exams</div>
+              <div class="mt-1 text-xl font-bold md:text-2xl">5</div>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <div class="text-xs font-medium text-slate-500">Prep leave</div>
-              <div class="mt-1 text-2xl font-bold">3</div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 md:rounded-2xl md:px-4">
+              <div class="text-[10px] font-medium text-slate-500 sm:text-xs">Prep leave</div>
+              <div class="mt-1 text-xl font-bold md:text-2xl">3</div>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <div class="text-xs font-medium text-slate-500">Office leave</div>
-              <div class="mt-1 text-2xl font-bold">8</div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 md:rounded-2xl md:px-4">
+              <div class="text-[10px] font-medium text-slate-500 sm:text-xs">Office leave</div>
+              <div class="mt-1 text-xl font-bold md:text-2xl">8</div>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <div class="text-xs font-medium text-slate-500">Weekends</div>
-              <div class="mt-1 text-2xl font-bold">8</div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 md:rounded-2xl md:px-4">
+              <div class="text-[10px] font-medium text-slate-500 sm:text-xs">Weekends</div>
+              <div class="mt-1 text-xl font-bold md:text-2xl">8</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Leave plan strip -->
-      <div class="border-t border-slate-200 bg-slate-50/80 px-6 py-4 md:px-8">
+      <!-- Leave strip -->
+      <div class="border-t border-slate-200 bg-slate-50/80 px-4 py-4 sm:px-5 md:px-8">
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">
               Recommended office leave
-            </span>
+            </div>
             <div class="mt-1 text-sm font-semibold text-slate-800 md:text-base">
               Sep 9–10 • Sep 14–18 • Sep 21
             </div>
           </div>
-          <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm text-indigo-800">
-            <strong>Best study block:</strong> Sep 12–21 becomes a continuous 10-day exam/study period
-            because weekends connect with your exam leave.
+
+          <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-3 py-2.5 text-xs leading-5 text-indigo-800 sm:px-4 sm:text-sm">
+            <strong>Best study block:</strong> Sep 12–21 gives you 10 continuous non-office days.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Controls + legend -->
-    <section class="mb-5 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-      <div class="flex flex-wrap gap-2">
+    <!-- Filters -->
+    <section class="mb-4 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:mb-5 md:p-4">
+      <div class="flex gap-2 overflow-x-auto pb-1">
         <button
           @click="filter = 'all'"
-          :class="filter === 'all' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200'"
-          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
-        >All days</button>
+          :class="filter === 'all' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-200'"
+          class="shrink-0 rounded-xl border px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm"
+        >All</button>
 
         <button
           @click="filter = 'exam'"
-          :class="filter === 'exam' ? 'bg-red-600 text-white' : 'bg-white text-slate-600 border border-slate-200'"
-          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
-        >Exam days</button>
+          :class="filter === 'exam' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-slate-600 border-slate-200'"
+          class="shrink-0 rounded-xl border px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm"
+        >Exams</button>
 
         <button
           @click="filter = 'prep'"
-          :class="filter === 'prep' ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 border border-slate-200'"
-          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
-        >Preparation leave</button>
+          :class="filter === 'prep' ? 'bg-amber-500 text-white border-amber-500' : 'bg-white text-slate-600 border-slate-200'"
+          class="shrink-0 rounded-xl border px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm"
+        >Prep leave</button>
 
         <button
           @click="filter = 'weekend'"
-          :class="filter === 'weekend' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-600 border border-slate-200'"
-          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
+          :class="filter === 'weekend' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200'"
+          class="shrink-0 rounded-xl border px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm"
         >Weekends</button>
       </div>
 
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-600">
-        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-red-500"></i> Exam</span>
-        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-amber-400"></i> Prep leave</span>
-        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-emerald-500"></i> Weekend</span>
-        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-slate-300"></i> Office</span>
+      <div class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-medium text-slate-600 sm:text-xs">
+        <span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-red-500"></i> Exam</span>
+        <span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-amber-400"></i> Prep leave</span>
+        <span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-emerald-500"></i> Weekend</span>
+        <span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-300"></i> Office</span>
       </div>
     </section>
 
     <!-- Calendar -->
-    <section class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <div class="flex items-center justify-between border-b border-slate-200 px-5 py-5 md:px-7">
+    <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:rounded-3xl">
+      <div class="flex flex-col gap-3 border-b border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7 md:py-5">
         <div>
-          <h2 class="text-2xl font-bold">September 2026</h2>
-          <p class="mt-1 text-sm text-slate-500">Bhadra 16 – Ashwin 14, 2083 BS</p>
+          <h2 class="text-xl font-bold md:text-2xl">September 2026</h2>
+          <p class="mt-1 text-xs text-slate-500 sm:text-sm">Bhadra 16 – Ashwin 14, 2083 BS</p>
         </div>
-        <div class="hidden rounded-xl bg-slate-100 px-4 py-2 text-right sm:block">
-          <div class="text-xs text-slate-500">Work rule</div>
-          <div class="text-sm font-semibold">Saturday + Sunday = Holiday</div>
+
+        <div class="rounded-xl bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 sm:text-sm">
+          Saturday + Sunday = Holiday
         </div>
       </div>
 
-      <!-- weekday heading -->
+      <!-- Weekday headings -->
       <div class="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
         <template x-for="day in weekDays" :key="day">
           <div
-            class="px-2 py-3 text-center text-xs font-bold uppercase tracking-wider"
+            class="px-0.5 py-2 text-center text-[9px] font-bold uppercase tracking-wide sm:px-2 sm:py-3 sm:text-xs"
             :class="['Saturday','Sunday'].includes(day) ? 'text-emerald-700' : 'text-slate-500'"
             x-text="day.slice(0,3)"
           ></div>
         </template>
       </div>
 
-      <!-- grid -->
+      <!-- Calendar grid -->
       <div class="grid grid-cols-7">
-        <!-- Empty Sun + Mon before Sep 1 -->
+        <!-- Empty Sun + Mon -->
         <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
         <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
 
         <template x-for="day in days" :key="day.ad">
-          <article
-            class="calendar-cell relative border-b border-r border-slate-100 p-2.5 transition md:p-3"
+          <button
+            type="button"
+            @click="selectedDay = day"
+            class="calendar-cell relative min-w-0 border-b border-r border-slate-100 p-1.5 text-left transition hover:z-10 hover:ring-1 hover:ring-slate-300 sm:p-2.5 md:p-3"
             :class="cellClass(day)"
           >
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <div
-                  class="text-2xl font-bold leading-none md:text-3xl"
+            <!-- Mobile compact -->
+            <div class="md:hidden">
+              <div class="flex items-start justify-between gap-1">
+                <span
+                  class="text-base font-bold leading-none sm:text-xl"
                   :class="day.type === 'exam' ? 'text-red-600' : 'text-slate-950'"
                   x-text="day.ad"
-                ></div>
-                <div class="mt-2 text-[11px] font-medium text-slate-500 md:text-xs">
-                  <span x-text="day.bsMonth"></span>
-                  <span x-text="day.bs"></span>
-                </div>
+                ></span>
+
+                <span
+                  x-show="day.type !== 'office'"
+                  class="h-2 w-2 shrink-0 rounded-full"
+                  :class="dotClass(day)"
+                ></span>
               </div>
 
-              <span
+              <div class="mt-1 text-[8px] font-medium leading-tight text-slate-500 sm:text-[10px]">
+                <span x-text="day.bsMonth === 'Bhadra' ? 'भदौ' : 'असोज'"></span>
+                <span x-text="day.bs"></span>
+              </div>
+
+              <div
                 x-show="day.type !== 'office'"
-                x-text="badgeText(day)"
-                class="rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide"
-                :class="badgeClass(day)"
-              ></span>
+                class="mt-2 truncate text-[8px] font-bold leading-tight sm:text-[10px]"
+                :class="mobileLabelClass(day)"
+                x-text="mobileLabel(day)"
+              ></div>
             </div>
 
-            <div class="mt-3 space-y-2">
-              <template x-if="day.type === 'exam'">
+            <!-- Desktop detailed -->
+            <div class="hidden md:block">
+              <div class="flex items-start justify-between gap-2">
                 <div>
-                  <div class="line-clamp-3 text-xs font-bold leading-5 text-slate-800 md:text-sm" x-text="day.subject"></div>
-                  <div class="mt-1 text-[11px] font-semibold text-red-600">
-                    Exam leave
+                  <div
+                    class="text-2xl font-bold leading-none lg:text-3xl"
+                    :class="day.type === 'exam' ? 'text-red-600' : 'text-slate-950'"
+                    x-text="day.ad"
+                  ></div>
+                  <div class="mt-2 text-[11px] font-medium text-slate-500 lg:text-xs">
+                    <span x-text="day.bsMonth"></span>
+                    <span x-text="day.bs"></span>
                   </div>
                 </div>
-              </template>
 
-              <template x-if="day.type === 'prep'">
-                <div>
-                  <div class="text-xs font-bold text-amber-800 md:text-sm">Prepare for exam</div>
-                  <div class="mt-1 line-clamp-2 text-[11px] leading-4 text-slate-500" x-text="day.forExam"></div>
-                </div>
-              </template>
+                <span
+                  x-show="day.type !== 'office'"
+                  x-text="badgeText(day)"
+                  class="rounded-full px-2 py-1 text-[9px] font-bold uppercase tracking-wide lg:text-[10px]"
+                  :class="badgeClass(day)"
+                ></span>
+              </div>
 
-              <template x-if="day.type === 'weekend'">
-                <div>
-                  <div class="text-xs font-bold text-emerald-700 md:text-sm">Office holiday</div>
-                  <div class="mt-1 text-[11px] text-slate-500">Use for revision / rest</div>
-                </div>
-              </template>
+              <div class="mt-3">
+                <template x-if="day.type === 'exam'">
+                  <div>
+                    <div class="text-xs font-bold leading-5 text-slate-800 lg:text-sm" x-text="day.subject"></div>
+                    <div class="mt-1 text-[11px] font-semibold text-red-600">Exam leave</div>
+                  </div>
+                </template>
 
-              <template x-if="day.type === 'office'">
-                <div class="pt-1 text-[11px] font-medium text-slate-400">
-                  Regular office day
-                </div>
-              </template>
+                <template x-if="day.type === 'prep'">
+                  <div>
+                    <div class="text-xs font-bold text-amber-800 lg:text-sm">Prepare for exam</div>
+                    <div class="mt-1 text-[11px] leading-4 text-slate-500" x-text="day.forExam"></div>
+                  </div>
+                </template>
+
+                <template x-if="day.type === 'weekend'">
+                  <div>
+                    <div class="text-xs font-bold text-emerald-700 lg:text-sm">Office holiday</div>
+                    <div class="mt-1 text-[11px] text-slate-500">Revision / rest</div>
+                  </div>
+                </template>
+
+                <template x-if="day.type === 'office'">
+                  <div class="pt-1 text-[11px] font-medium text-slate-400">Regular office day</div>
+                </template>
+              </div>
             </div>
 
-            <!-- muted overlay when filtering -->
             <div
               x-show="filter !== 'all' && day.type !== filter"
               x-cloak
               class="pointer-events-none absolute inset-0 bg-white/80"
             ></div>
-          </article>
+          </button>
         </template>
 
-        <!-- Empty Thu/Fri/Sat after Sep 30 -->
+        <!-- Empty Thu/Fri/Sat -->
         <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
         <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
         <div class="calendar-cell border-b border-slate-100 bg-slate-50/70"></div>
       </div>
     </section>
 
-    <!-- Exam schedule -->
-    <section class="mt-6 grid gap-5 lg:grid-cols-[1.35fr_.65fr]">
-      <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-        <div class="mb-4">
-          <h3 class="text-lg font-bold">Exam schedule</h3>
-          <p class="mt-1 text-sm text-slate-500">AD date, BS date and recommended preparation day.</p>
+    <!-- Mobile selected day detail -->
+    <section
+      x-show="selectedDay"
+      x-cloak
+      class="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:hidden"
+    >
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-500">Selected date</div>
+          <div class="mt-1 text-xl font-bold">
+            Sep <span x-text="selectedDay?.ad"></span>, 2026
+          </div>
+          <div class="mt-1 text-sm text-slate-500">
+            <span x-text="selectedDay?.bsMonth"></span>
+            <span x-text="selectedDay?.bs"></span>, 2083 BS
+          </div>
         </div>
 
-        <div class="overflow-x-auto">
+        <button
+          @click="selectedDay = null"
+          class="rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-600"
+        >Close</button>
+      </div>
+
+      <div class="mt-4 rounded-xl p-3" :class="mobileDetailClass(selectedDay)">
+        <template x-if="selectedDay?.type === 'exam'">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wide text-red-600">Exam day</div>
+            <div class="mt-1 text-sm font-bold text-slate-900" x-text="selectedDay?.subject"></div>
+            <div class="mt-2 text-xs text-slate-600">Take office leave for the exam.</div>
+          </div>
+        </template>
+
+        <template x-if="selectedDay?.type === 'prep'">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wide text-amber-700">Preparation leave</div>
+            <div class="mt-1 text-sm font-bold text-slate-900" x-text="selectedDay?.forExam"></div>
+            <div class="mt-2 text-xs text-slate-600">Recommended full-day study leave before the exam.</div>
+          </div>
+        </template>
+
+        <template x-if="selectedDay?.type === 'weekend'">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wide text-emerald-700">Weekend holiday</div>
+            <div class="mt-1 text-sm font-bold text-slate-900">No office</div>
+            <div class="mt-2 text-xs text-slate-600">Use this day for revision, recovery or rest.</div>
+          </div>
+        </template>
+
+        <template x-if="selectedDay?.type === 'office'">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wide text-slate-500">Office day</div>
+            <div class="mt-1 text-sm font-bold text-slate-900">Regular working day</div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- Schedule + summary -->
+    <section class="mt-5 grid gap-4 lg:mt-6 lg:grid-cols-[1.35fr_.65fr] lg:gap-5">
+      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:rounded-3xl md:p-6">
+        <div class="mb-4">
+          <h3 class="text-lg font-bold">Exam schedule</h3>
+          <p class="mt-1 text-xs text-slate-500 sm:text-sm">Exam dates and recommended preparation day.</p>
+        </div>
+
+        <!-- Mobile schedule cards -->
+        <div class="space-y-3 md:hidden">
+          <template x-for="exam in exams" :key="exam.code">
+            <article class="rounded-xl border border-slate-200 p-3">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-xs font-bold text-red-600" x-text="exam.code"></div>
+                  <div class="mt-1 text-sm font-bold leading-5 text-slate-800" x-text="exam.subject"></div>
+                </div>
+                <span class="shrink-0 rounded-lg bg-red-50 px-2 py-1 text-[10px] font-bold text-red-700" x-text="exam.adShort"></span>
+              </div>
+
+              <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+                <div class="rounded-lg bg-slate-50 p-2.5">
+                  <div class="text-[10px] text-slate-500">BS date</div>
+                  <div class="mt-1 font-semibold" x-text="exam.bs"></div>
+                </div>
+                <div class="rounded-lg p-2.5" :class="exam.prepOfficeLeave ? 'bg-amber-50' : 'bg-emerald-50'">
+                  <div class="text-[10px] text-slate-500">Preparation</div>
+                  <div class="mt-1 font-semibold" x-text="exam.prepShort"></div>
+                </div>
+              </div>
+            </article>
+          </template>
+        </div>
+
+        <!-- Desktop table -->
+        <div class="hidden overflow-x-auto md:block">
           <table class="w-full min-w-[760px] text-left text-sm">
             <thead>
               <tr class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
@@ -272,34 +392,33 @@
         </div>
       </div>
 
-      <aside class="rounded-3xl border border-slate-200 bg-slate-900 p-5 text-white shadow-sm md:p-6">
-        <div class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+      <aside class="rounded-2xl border border-slate-200 bg-slate-900 p-4 text-white shadow-sm md:rounded-3xl md:p-6">
+        <div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400 sm:text-xs">
           Leave summary
         </div>
-        <h3 class="mt-2 text-2xl font-bold">8 office leave days</h3>
-        <p class="mt-2 text-sm leading-6 text-slate-300">
-          This includes 5 exam days and only 3 extra preparation leaves.
-          Two preparation days naturally fall on Sunday, so they do not consume office leave.
+
+        <h3 class="mt-2 text-xl font-bold md:text-2xl">8 office leave days</h3>
+
+        <p class="mt-2 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">
+          5 exam days + 3 extra preparation leaves. Two preparation days fall on Sunday,
+          so they do not consume office leave.
         </p>
 
-        <div class="mt-5 space-y-3 text-sm">
-          <div class="rounded-2xl bg-white/10 p-4">
-            <div class="text-xs text-slate-400">First exam</div>
+        <div class="mt-4 space-y-2.5 text-xs sm:mt-5 sm:space-y-3 sm:text-sm">
+          <div class="rounded-xl bg-white/10 p-3 sm:rounded-2xl sm:p-4">
+            <div class="text-[10px] text-slate-400 sm:text-xs">First exam</div>
             <div class="mt-1 font-semibold">Thu, Sep 10 — Discrete Structure</div>
           </div>
-          <div class="rounded-2xl bg-white/10 p-4">
-            <div class="text-xs text-slate-400">Longest exam stretch</div>
+
+          <div class="rounded-xl bg-white/10 p-3 sm:rounded-2xl sm:p-4">
+            <div class="text-[10px] text-slate-400 sm:text-xs">Longest exam stretch</div>
             <div class="mt-1 font-semibold">Sep 12–21 — 10 continuous non-office days</div>
           </div>
-          <div class="rounded-2xl bg-white/10 p-4">
-            <div class="text-xs text-slate-400">Final exam</div>
+
+          <div class="rounded-xl bg-white/10 p-3 sm:rounded-2xl sm:p-4">
+            <div class="text-[10px] text-slate-400 sm:text-xs">Final exam</div>
             <div class="mt-1 font-semibold">Mon, Sep 21 — Research Methodology</div>
           </div>
-        </div>
-
-        <div class="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs leading-5 text-slate-300">
-          Optional: if office workload permits, taking <strong class="text-white">Friday, Sep 11</strong>
-          as an additional leave would create one continuous block from Sep 9–21.
         </div>
       </aside>
     </section>
@@ -316,12 +435,12 @@ function examCalendar() {
   };
 
   const prepMap = {
-    9:  'MCA 501: Discrete Structure',
+    9: 'MCA 501: Discrete Structure',
     15: 'MCA 503: Advanced Database Management System',
     17: 'MCA 504: Programming Logic & Techniques using Python',
   };
 
-  const weekends = [5,6,12,13,19,20,26,27];
+  const weekends = [5, 6, 12, 13, 19, 20, 26, 27];
 
   const getBs = (ad) => {
     if (ad <= 16) return { bsMonth: 'Bhadra', bs: ad + 15 };
@@ -332,20 +451,16 @@ function examCalendar() {
     const ad = i + 1;
     const bs = getBs(ad);
 
-    if (examMap[ad]) {
-      return { ad, ...bs, type: 'exam', subject: examMap[ad].subject };
-    }
-    if (prepMap[ad]) {
-      return { ad, ...bs, type: 'prep', forExam: prepMap[ad] };
-    }
-    if (weekends.includes(ad)) {
-      return { ad, ...bs, type: 'weekend' };
-    }
+    if (examMap[ad]) return { ad, ...bs, type: 'exam', subject: examMap[ad].subject };
+    if (prepMap[ad]) return { ad, ...bs, type: 'prep', forExam: prepMap[ad] };
+    if (weekends.includes(ad)) return { ad, ...bs, type: 'weekend' };
+
     return { ad, ...bs, type: 'office' };
   });
 
   return {
     filter: 'all',
+    selectedDay: null,
     weekDays: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
     days,
 
@@ -353,51 +468,57 @@ function examCalendar() {
       {
         code: 'MCA 501',
         ad: 'Sep 10, 2026',
+        adShort: 'Sep 10',
         bs: '2083-05-25',
         subject: 'Discrete Structure',
         prep: 'Sep 9 — office leave',
+        prepShort: 'Sep 9',
         prepOfficeLeave: true
       },
       {
         code: 'MCA 502',
         ad: 'Sep 14, 2026',
+        adShort: 'Sep 14',
         bs: '2083-05-29',
         subject: 'Advanced Operating System',
         prep: 'Sep 13 — Sunday holiday',
+        prepShort: 'Sep 13',
         prepOfficeLeave: false
       },
       {
         code: 'MCA 503',
         ad: 'Sep 16, 2026',
+        adShort: 'Sep 16',
         bs: '2083-05-31',
         subject: 'Advanced Database Management System',
         prep: 'Sep 15 — office leave',
+        prepShort: 'Sep 15',
         prepOfficeLeave: true
       },
       {
         code: 'MCA 504',
         ad: 'Sep 18, 2026',
+        adShort: 'Sep 18',
         bs: '2083-06-02',
         subject: 'Programming Logic & Techniques using Python',
         prep: 'Sep 17 — office leave',
+        prepShort: 'Sep 17',
         prepOfficeLeave: true
       },
       {
         code: 'MCA 505',
         ad: 'Sep 21, 2026',
+        adShort: 'Sep 21',
         bs: '2083-06-05',
         subject: 'Research Methodology in Computer Applications',
         prep: 'Sep 20 — Sunday holiday',
+        prepShort: 'Sep 20',
         prepOfficeLeave: false
       },
     ],
 
     badgeText(day) {
-      return {
-        exam: 'Exam',
-        prep: 'Prep',
-        weekend: 'Holiday'
-      }[day.type] || '';
+      return { exam: 'Exam', prep: 'Prep', weekend: 'Holiday' }[day.type] || '';
     },
 
     badgeClass(day) {
@@ -410,10 +531,45 @@ function examCalendar() {
 
     cellClass(day) {
       return {
-        exam: 'bg-red-50/70 ring-1 ring-inset ring-red-200',
+        exam: 'bg-red-50/70 md:ring-1 md:ring-inset md:ring-red-200',
         prep: 'bg-amber-50/70',
         weekend: 'bg-emerald-50/60',
         office: 'bg-white'
+      }[day.type];
+    },
+
+    dotClass(day) {
+      return {
+        exam: 'bg-red-500',
+        prep: 'bg-amber-400',
+        weekend: 'bg-emerald-500',
+        office: 'bg-slate-300'
+      }[day.type];
+    },
+
+    mobileLabel(day) {
+      return {
+        exam: 'EXAM',
+        prep: 'PREP',
+        weekend: 'OFF'
+      }[day.type] || '';
+    },
+
+    mobileLabelClass(day) {
+      return {
+        exam: 'text-red-600',
+        prep: 'text-amber-700',
+        weekend: 'text-emerald-700'
+      }[day.type] || '';
+    },
+
+    mobileDetailClass(day) {
+      if (!day) return 'bg-slate-50';
+      return {
+        exam: 'bg-red-50',
+        prep: 'bg-amber-50',
+        weekend: 'bg-emerald-50',
+        office: 'bg-slate-50'
       }[day.type];
     }
   }
