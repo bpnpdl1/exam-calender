@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>September 2026 Exam & Office Leave Planner</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    .calendar-cell { min-height: 150px; }
+    @media (max-width: 768px) {
+      .calendar-cell { min-height: 120px; }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+<div
+  x-data="examCalendar()"
+  class="min-h-screen"
+>
+  <main class="mx-auto max-w-[1500px] px-4 py-6 md:px-8 lg:py-10">
+
+    <!-- Header -->
+    <section class="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div class="p-6 md:p-8">
+        <div class="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+          <div>
+            <div class="mb-3 flex flex-wrap items-center gap-2">
+              <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
+                MCA I Semester • Batch 2025
+              </span>
+              <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                September 2026
+              </span>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                Bhadra / Ashwin 2083
+              </span>
+            </div>
+
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">
+              Exam & Office Leave Planner
+            </h1>
+            <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-500 md:text-base">
+              A clean one-month calendar focused only on office work, weekends,
+              exam dates and recommended preparation leave.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div class="text-xs font-medium text-slate-500">Exams</div>
+              <div class="mt-1 text-2xl font-bold">5</div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div class="text-xs font-medium text-slate-500">Prep leave</div>
+              <div class="mt-1 text-2xl font-bold">3</div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div class="text-xs font-medium text-slate-500">Office leave</div>
+              <div class="mt-1 text-2xl font-bold">8</div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div class="text-xs font-medium text-slate-500">Weekends</div>
+              <div class="mt-1 text-2xl font-bold">8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leave plan strip -->
+      <div class="border-t border-slate-200 bg-slate-50/80 px-6 py-4 md:px-8">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              Recommended office leave
+            </span>
+            <div class="mt-1 text-sm font-semibold text-slate-800 md:text-base">
+              Sep 9–10 • Sep 14–18 • Sep 21
+            </div>
+          </div>
+          <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm text-indigo-800">
+            <strong>Best study block:</strong> Sep 12–21 becomes a continuous 10-day exam/study period
+            because weekends connect with your exam leave.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls + legend -->
+    <section class="mb-5 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap gap-2">
+        <button
+          @click="filter = 'all'"
+          :class="filter === 'all' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200'"
+          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
+        >All days</button>
+
+        <button
+          @click="filter = 'exam'"
+          :class="filter === 'exam' ? 'bg-red-600 text-white' : 'bg-white text-slate-600 border border-slate-200'"
+          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
+        >Exam days</button>
+
+        <button
+          @click="filter = 'prep'"
+          :class="filter === 'prep' ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 border border-slate-200'"
+          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
+        >Preparation leave</button>
+
+        <button
+          @click="filter = 'weekend'"
+          :class="filter === 'weekend' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-600 border border-slate-200'"
+          class="rounded-xl px-4 py-2 text-sm font-semibold transition"
+        >Weekends</button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-600">
+        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-red-500"></i> Exam</span>
+        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-amber-400"></i> Prep leave</span>
+        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-emerald-500"></i> Weekend</span>
+        <span class="inline-flex items-center gap-2"><i class="h-3 w-3 rounded-full bg-slate-300"></i> Office</span>
+      </div>
+    </section>
+
+    <!-- Calendar -->
+    <section class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div class="flex items-center justify-between border-b border-slate-200 px-5 py-5 md:px-7">
+        <div>
+          <h2 class="text-2xl font-bold">September 2026</h2>
+          <p class="mt-1 text-sm text-slate-500">Bhadra 16 – Ashwin 14, 2083 BS</p>
+        </div>
+        <div class="hidden rounded-xl bg-slate-100 px-4 py-2 text-right sm:block">
+          <div class="text-xs text-slate-500">Work rule</div>
+          <div class="text-sm font-semibold">Saturday + Sunday = Holiday</div>
+        </div>
+      </div>
+
+      <!-- weekday heading -->
+      <div class="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
+        <template x-for="day in weekDays" :key="day">
+          <div
+            class="px-2 py-3 text-center text-xs font-bold uppercase tracking-wider"
+            :class="['Saturday','Sunday'].includes(day) ? 'text-emerald-700' : 'text-slate-500'"
+            x-text="day.slice(0,3)"
+          ></div>
+        </template>
+      </div>
+
+      <!-- grid -->
+      <div class="grid grid-cols-7">
+        <!-- Empty Sun + Mon before Sep 1 -->
+        <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
+        <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
+
+        <template x-for="day in days" :key="day.ad">
+          <article
+            class="calendar-cell relative border-b border-r border-slate-100 p-2.5 transition md:p-3"
+            :class="cellClass(day)"
+          >
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div
+                  class="text-2xl font-bold leading-none md:text-3xl"
+                  :class="day.type === 'exam' ? 'text-red-600' : 'text-slate-950'"
+                  x-text="day.ad"
+                ></div>
+                <div class="mt-2 text-[11px] font-medium text-slate-500 md:text-xs">
+                  <span x-text="day.bsMonth"></span>
+                  <span x-text="day.bs"></span>
+                </div>
+              </div>
+
+              <span
+                x-show="day.type !== 'office'"
+                x-text="badgeText(day)"
+                class="rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide"
+                :class="badgeClass(day)"
+              ></span>
+            </div>
+
+            <div class="mt-3 space-y-2">
+              <template x-if="day.type === 'exam'">
+                <div>
+                  <div class="line-clamp-3 text-xs font-bold leading-5 text-slate-800 md:text-sm" x-text="day.subject"></div>
+                  <div class="mt-1 text-[11px] font-semibold text-red-600">
+                    Exam leave
+                  </div>
+                </div>
+              </template>
+
+              <template x-if="day.type === 'prep'">
+                <div>
+                  <div class="text-xs font-bold text-amber-800 md:text-sm">Prepare for exam</div>
+                  <div class="mt-1 line-clamp-2 text-[11px] leading-4 text-slate-500" x-text="day.forExam"></div>
+                </div>
+              </template>
+
+              <template x-if="day.type === 'weekend'">
+                <div>
+                  <div class="text-xs font-bold text-emerald-700 md:text-sm">Office holiday</div>
+                  <div class="mt-1 text-[11px] text-slate-500">Use for revision / rest</div>
+                </div>
+              </template>
+
+              <template x-if="day.type === 'office'">
+                <div class="pt-1 text-[11px] font-medium text-slate-400">
+                  Regular office day
+                </div>
+              </template>
+            </div>
+
+            <!-- muted overlay when filtering -->
+            <div
+              x-show="filter !== 'all' && day.type !== filter"
+              x-cloak
+              class="pointer-events-none absolute inset-0 bg-white/80"
+            ></div>
+          </article>
+        </template>
+
+        <!-- Empty Thu/Fri/Sat after Sep 30 -->
+        <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
+        <div class="calendar-cell border-b border-r border-slate-100 bg-slate-50/70"></div>
+        <div class="calendar-cell border-b border-slate-100 bg-slate-50/70"></div>
+      </div>
+    </section>
+
+    <!-- Exam schedule -->
+    <section class="mt-6 grid gap-5 lg:grid-cols-[1.35fr_.65fr]">
+      <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div class="mb-4">
+          <h3 class="text-lg font-bold">Exam schedule</h3>
+          <p class="mt-1 text-sm text-slate-500">AD date, BS date and recommended preparation day.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[760px] text-left text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
+                <th class="pb-3 pr-4">Exam date</th>
+                <th class="pb-3 pr-4">BS date</th>
+                <th class="pb-3 pr-4">Subject</th>
+                <th class="pb-3">Recommended prep</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <template x-for="exam in exams" :key="exam.code">
+                <tr>
+                  <td class="py-4 pr-4 font-semibold" x-text="exam.ad"></td>
+                  <td class="py-4 pr-4 text-slate-600" x-text="exam.bs"></td>
+                  <td class="py-4 pr-4">
+                    <div class="font-semibold text-slate-800">
+                      <span x-text="exam.code"></span>:
+                      <span x-text="exam.subject"></span>
+                    </div>
+                  </td>
+                  <td class="py-4">
+                    <span
+                      class="rounded-lg px-2.5 py-1.5 text-xs font-semibold"
+                      :class="exam.prepOfficeLeave ? 'bg-amber-50 text-amber-800' : 'bg-emerald-50 text-emerald-700'"
+                      x-text="exam.prep"
+                    ></span>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="rounded-3xl border border-slate-200 bg-slate-900 p-5 text-white shadow-sm md:p-6">
+        <div class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          Leave summary
+        </div>
+        <h3 class="mt-2 text-2xl font-bold">8 office leave days</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-300">
+          This includes 5 exam days and only 3 extra preparation leaves.
+          Two preparation days naturally fall on Sunday, so they do not consume office leave.
+        </p>
+
+        <div class="mt-5 space-y-3 text-sm">
+          <div class="rounded-2xl bg-white/10 p-4">
+            <div class="text-xs text-slate-400">First exam</div>
+            <div class="mt-1 font-semibold">Thu, Sep 10 — Discrete Structure</div>
+          </div>
+          <div class="rounded-2xl bg-white/10 p-4">
+            <div class="text-xs text-slate-400">Longest exam stretch</div>
+            <div class="mt-1 font-semibold">Sep 12–21 — 10 continuous non-office days</div>
+          </div>
+          <div class="rounded-2xl bg-white/10 p-4">
+            <div class="text-xs text-slate-400">Final exam</div>
+            <div class="mt-1 font-semibold">Mon, Sep 21 — Research Methodology</div>
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs leading-5 text-slate-300">
+          Optional: if office workload permits, taking <strong class="text-white">Friday, Sep 11</strong>
+          as an additional leave would create one continuous block from Sep 9–21.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+<script>
+function examCalendar() {
+  const examMap = {
+    10: { subject: 'MCA 501: Discrete Structure' },
+    14: { subject: 'MCA 502: Advanced Operating System' },
+    16: { subject: 'MCA 503: Advanced Database Management System' },
+    18: { subject: 'MCA 504: Programming Logic & Techniques using Python' },
+    21: { subject: 'MCA 505: Research Methodology in Computer Applications' },
+  };
+
+  const prepMap = {
+    9:  'MCA 501: Discrete Structure',
+    15: 'MCA 503: Advanced Database Management System',
+    17: 'MCA 504: Programming Logic & Techniques using Python',
+  };
+
+  const weekends = [5,6,12,13,19,20,26,27];
+
+  const getBs = (ad) => {
+    if (ad <= 16) return { bsMonth: 'Bhadra', bs: ad + 15 };
+    return { bsMonth: 'Ashwin', bs: ad - 16 };
+  };
+
+  const days = Array.from({ length: 30 }, (_, i) => {
+    const ad = i + 1;
+    const bs = getBs(ad);
+
+    if (examMap[ad]) {
+      return { ad, ...bs, type: 'exam', subject: examMap[ad].subject };
+    }
+    if (prepMap[ad]) {
+      return { ad, ...bs, type: 'prep', forExam: prepMap[ad] };
+    }
+    if (weekends.includes(ad)) {
+      return { ad, ...bs, type: 'weekend' };
+    }
+    return { ad, ...bs, type: 'office' };
+  });
+
+  return {
+    filter: 'all',
+    weekDays: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+    days,
+
+    exams: [
+      {
+        code: 'MCA 501',
+        ad: 'Sep 10, 2026',
+        bs: '2083-05-25',
+        subject: 'Discrete Structure',
+        prep: 'Sep 9 — office leave',
+        prepOfficeLeave: true
+      },
+      {
+        code: 'MCA 502',
+        ad: 'Sep 14, 2026',
+        bs: '2083-05-29',
+        subject: 'Advanced Operating System',
+        prep: 'Sep 13 — Sunday holiday',
+        prepOfficeLeave: false
+      },
+      {
+        code: 'MCA 503',
+        ad: 'Sep 16, 2026',
+        bs: '2083-05-31',
+        subject: 'Advanced Database Management System',
+        prep: 'Sep 15 — office leave',
+        prepOfficeLeave: true
+      },
+      {
+        code: 'MCA 504',
+        ad: 'Sep 18, 2026',
+        bs: '2083-06-02',
+        subject: 'Programming Logic & Techniques using Python',
+        prep: 'Sep 17 — office leave',
+        prepOfficeLeave: true
+      },
+      {
+        code: 'MCA 505',
+        ad: 'Sep 21, 2026',
+        bs: '2083-06-05',
+        subject: 'Research Methodology in Computer Applications',
+        prep: 'Sep 20 — Sunday holiday',
+        prepOfficeLeave: false
+      },
+    ],
+
+    badgeText(day) {
+      return {
+        exam: 'Exam',
+        prep: 'Prep',
+        weekend: 'Holiday'
+      }[day.type] || '';
+    },
+
+    badgeClass(day) {
+      return {
+        exam: 'bg-red-100 text-red-700',
+        prep: 'bg-amber-100 text-amber-800',
+        weekend: 'bg-emerald-100 text-emerald-700'
+      }[day.type] || '';
+    },
+
+    cellClass(day) {
+      return {
+        exam: 'bg-red-50/70 ring-1 ring-inset ring-red-200',
+        prep: 'bg-amber-50/70',
+        weekend: 'bg-emerald-50/60',
+        office: 'bg-white'
+      }[day.type];
+    }
+  }
+}
+</script>
+</div>
+</body>
+</html>
